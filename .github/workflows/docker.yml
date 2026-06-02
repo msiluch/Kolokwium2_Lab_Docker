@@ -47,7 +47,7 @@ jobs:
                   cache-from: type=registry,ref=${{ secrets.DOCKERHUB_USERNAME }}/kolokwium2_lab_docker-cache:latest
 
             - name: Skanowanie obrazu
-              uses: aquasecurity/trivy-action@master
+              uses: aquasecurity/trivy-action@0.33.1
               with:
                   image-ref: pogoda:scan
                   severity: HIGH,CRITICAL
