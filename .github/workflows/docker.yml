@@ -52,7 +52,7 @@ jobs:
                   platforms: linux/amd64
                   tags: pogoda:scan
                   load: true
-                  cache-from: type=registry,ref=${{ secrets.DOCKERHUB_USERNAME }}/kolokwium2_lab_docker-cache:latest
+                  cache-from: type=registry,ref=${{ secrets.DOCKERHUB_USERNAME }}/kolokwium2_lab_docker-cache:${{ github.ref_name }}
 
             - name: Skanowanie obrazu
               uses: aquasecurity/trivy-action@master
@@ -68,5 +68,5 @@ jobs:
                   push: true
                   platforms: linux/amd64,linux/arm64
                   tags: ${{ steps.zmienna.outputs.tags }}
-                  cache-from: type=registry,ref=${{ secrets.DOCKERHUB_USERNAME }}/kolokwium2_lab_docker-cache:latest
-                  cache-to: type=registry,ref=${{ secrets.DOCKERHUB_USERNAME }}/kolokwium2_lab_docker-cache:latest,mode=max
+                  cache-from: type=registry,ref=${{ secrets.DOCKERHUB_USERNAME }}/kolokwium2_lab_docker-cache:${{ github.ref_name }}
+                  cache-to: type=registry,ref=${{ secrets.DOCKERHUB_USERNAME }}/kolokwium2_lab_docker-cache:${{ github.ref_name }},mode=max
