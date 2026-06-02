@@ -36,6 +36,14 @@ jobs:
                   username: ${{ github.actor }}
                   password: ${{ secrets.GITHUB_TOKEN }}
 
+            - name: Wygenerowanie tagowania
+              id: zmienna
+              uses: docker/metadata-action@v5
+              with:
+                  images: ghcr.io/${{ github.repository_owner }}/pogoda
+                  tags: |
+                    type=sha
+                    type=raw,value=latest,enable={{is_default_branch}}
 
             - name: Zbudowanie obrazu do skanowania
               uses: docker/build-push-action@v6
@@ -59,6 +67,6 @@ jobs:
                   context: .
                   push: true
                   platforms: linux/amd64,linux/arm64
-                  tags: ghcr.io/${{ github.repository_owner }}/pogoda:latest
+                  tags: ${{ steps.zmienna.outputs.tags }}
                   cache-from: type=registry,ref=${{ secrets.DOCKERHUB_USERNAME }}/kolokwium2_lab_docker-cache:latest
                   cache-to: type=registry,ref=${{ secrets.DOCKERHUB_USERNAME }}/kolokwium2_lab_docker-cache:latest,mode=max

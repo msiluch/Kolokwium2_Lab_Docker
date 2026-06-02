@@ -18,13 +18,14 @@ LABEL org.opencontainers.image.authors="Michał Siłuch"
 # Ustawienie katalogu roboczego i użytkownika, pod którym będzie działać aplikacja
 WORKDIR /app
 
+# Łatanie systemu operacyjnego i usuwanie podatnego NPM
 RUN apk update && apk upgrade --available && \
     rm -rf /usr/local/lib/node_modules/npm \
            /usr/local/bin/npm \
            /usr/local/bin/npx \
            /usr/local/bin/npm-cli.js
 
-# Kopiowanie zależności i plików aplikacji
+# Kopiowanie zależności i plików aplikacji, ustawiajac właściciela na użytkownika node
 COPY --from=builder --chown=node:node /app/node_modules ./node_modules
 COPY --chown=node:node index.js .
 COPY --chown=node:node package.json .
